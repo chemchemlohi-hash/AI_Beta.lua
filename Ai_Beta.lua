@@ -2315,7 +2315,7 @@ local sidebarTitle = makeTextLabel(sidebar, "Roxity", 16, "bold")
 sidebarTitle.Position = UDim2.new(0, 20, 0, 18)
 sidebarTitle.Size = UDim2.new(1, -20, 0, 18)
 
-local sidebarSubtitle = makeTextLabel(sidebar, "Fatality.pw/discord", 12, "semibold")
+local sidebarSubtitle = makeTextLabel(sidebar, "AI_Beta.com", 12, "semibold")
 sidebarSubtitle.TextColor3 = THEME.TextDim
 sidebarSubtitle.Position = UDim2.new(0, 20, 0, 36)
 sidebarSubtitle.Size = UDim2.new(1, -20, 0, 14)
