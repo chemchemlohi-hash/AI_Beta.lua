@@ -2321,7 +2321,7 @@ sidebarSubtitle.Position = UDim2.new(0, 20, 0, 36)
 sidebarSubtitle.Size = UDim2.new(1, -20, 0, 14)
 
 sidebarTitle.Text = "Roxity"
-sidebarSubtitle.Text = "AI_Beta.com" 
+sidebarSubtitle.Text = "AI_Beta-VietNamese_1.0.5" 
 
 -- Sidebar Title Animation Removed to keep static text
 
