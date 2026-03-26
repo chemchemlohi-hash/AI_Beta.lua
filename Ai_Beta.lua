@@ -2311,7 +2311,7 @@ local function createInterface()
     sidebarDivider.Size = UDim2.new(0, 1, 1, 0)
     sidebarDivider.Parent = sidebar
 
-local sidebarTitle = makeTextLabel(sidebar, "AI_Beta-VietNamese-1.0.0", 16, "bold")
+local sidebarTitle = makeTextLabel(sidebar, "AI_Beta", 16, "bold")
 sidebarTitle.Position = UDim2.new(0, 20, 0, 18)
 sidebarTitle.Size = UDim2.new(1, -20, 0, 18)
 
