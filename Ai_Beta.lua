@@ -2162,8 +2162,6 @@ local function makeDropdown(parent, values, default, callback)
         end
     }
 end
-
-
 -- Main UI Creation Wrapper
 local function createInterface()
     if player.PlayerGui:FindFirstChild("ChatbotExecutorUI") then
@@ -2311,7 +2309,7 @@ local function createInterface()
     sidebarDivider.Size = UDim2.new(0, 1, 1, 0)
     sidebarDivider.Parent = sidebar
 
-local sidebarTitle = makeTextLabel(sidebar, "AI_Beta", 16, "bold")
+local sidebarTitle = makeTextLabel(sidebar, "AI_Beta-VietNamese-1.0.0", 16, "bold")
 sidebarTitle.Position = UDim2.new(0, 20, 0, 18)
 sidebarTitle.Size = UDim2.new(1, -20, 0, 18)
 
@@ -3394,14 +3392,13 @@ end
 local personalitySection = makeSectionCard(behaviorScroll, "Tính cách", "")
 
 do
-    -- Remove "Custom" from selectable dropdown list
+    -- Tạo danh sách tính cách bao gồm cả "Custom"
     local personalityOrder = {}
     for k, _ in pairs(Personalities) do
-        if k ~= "Custom" then
-             table.insert(personalityOrder, k)
-        end
+        table.insert(personalityOrder, k)
     end
     table.sort(personalityOrder)
+    table.insert(personalityOrder, "Custom")   -- Thêm Custom vào cuối
 
     -- Personality Dropdown
     local dropRow, ctrl = makeRightControlRow(behaviorScroll, "Tính cách", "Cài đặt giọng điệu trả lời.", 220)
@@ -3417,7 +3414,7 @@ do
     customPromptBox:GetPropertyChangedSignal("Text"):Connect(function()
         if ClientSettings.PersonalityId ~= "Custom" then
             ClientSettings.PersonalityId = "Custom"
-            -- Update dropdown text to show "Custom" even if not in list
+            -- Update dropdown text to show "Custom" (now in list)
             if personalityDropdown.Set then
                 personalityDropdown.Set("Custom")
             end
