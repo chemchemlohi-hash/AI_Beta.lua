@@ -3391,40 +3391,34 @@ end
 -- BEHAVIOR TAB CONTENT (Populate)
 
 -- BEHAVIOR TAB CONTENT (Populate)
+-- ===================== PHẦN TÍNH CÁCH (Behavior) =====================
 local personalitySection = makeSectionCard(behaviorScroll, "Tính cách", "")
 
 do
-    -- 1. Tạo danh sách tính cách bao gồm tất cả các personality có sẵn, và thêm "Custom"
     local personalityOrder = {}
     for k, _ in pairs(Personalities) do
         table.insert(personalityOrder, k)
     end
-    table.sort(personalityOrder)          -- Sắp xếp theo tên
-    table.insert(personalityOrder, "Custom")  -- Thêm "Custom" vào cuối để hiển thị trong dropdown
+    table.sort(personalityOrder)
+    table.insert(personalityOrder, "Custom")
 
-    -- 2. Tạo dropdown chọn tính cách (đã bao gồm "Custom")
     local dropRow, ctrl = makeRightControlRow(behaviorScroll, "Tính cách", "Cài đặt giọng điệu trả lời.", 220)
     local personalityDropdown = makeDropdown(ctrl, personalityOrder, ClientSettings.PersonalityId or "Friendly", function(val)
-        ClientSettings.PersonalityId = val   -- Lưu lựa chọn
+        ClientSettings.PersonalityId = val
     end)
 
-    -- 3. Ô nhập prompt tùy chỉnh (luôn hiển thị)
     local customPromptContainer, customPromptBox = makeScrollingTextBox(behaviorScroll, "Nhập prompt tính cách tùy chỉnh của bạn...", ClientSettings.CustomSystemPrompt, 120)
 
-    -- 4. Khi người dùng nhập vào ô prompt, tự động chuyển sang chế độ "Custom"
     customPromptBox:GetPropertyChangedSignal("Text"):Connect(function()
         if ClientSettings.PersonalityId ~= "Custom" then
             ClientSettings.PersonalityId = "Custom"
-            -- Cập nhật dropdown hiển thị "Custom"
             if personalityDropdown.Set then
                 personalityDropdown.Set("Custom")
             end
         end
-        -- Lưu nội dung prompt tùy chỉnh
         ClientSettings.CustomSystemPrompt = customPromptBox.Text
     end)
 
-    -- 5. Khởi tạo trạng thái ban đầu: nếu đã là "Custom" thì set dropdown tương ứng
     if ClientSettings.PersonalityId == "Custom" then
         if personalityDropdown.Set then
             personalityDropdown.Set("Custom")
@@ -3432,38 +3426,6 @@ do
     end
 end
 -- ===================== KẾT THÚC PHẦN TÍNH CÁCH =====================
-    -- Personality Dropdown
-    local dropRow, ctrl = makeRightControlRow(behaviorScroll, "Tính cách", "Cài đặt giọng điệu trả lời.", 220)
-    
-    local personalityDropdown = makeDropdown(ctrl, personalityOrder, ClientSettings.PersonalityId or "Friendly", function(val)
-        ClientSettings.PersonalityId = val
-    end)
-    
-    -- Custom Personality Prompt (Always Visible)
-    local customPromptContainer, customPromptBox = makeScrollingTextBox(behaviorScroll, "Nhập prompt tính cách tùy chỉnh của bạn...", ClientSettings.CustomSystemPrompt, 120)
-
-    -- Auto-Switch to Custom on Type
-    customPromptBox:GetPropertyChangedSignal("Text"):Connect(function()
-        if ClientSettings.PersonalityId ~= "Custom" then
-            ClientSettings.PersonalityId = "Custom"
-            -- Update dropdown text to show "Custom" even if not in list
-            if personalityDropdown.Set then
-                personalityDropdown.Set("Custom")
-            end
-        end
-        ClientSettings.CustomSystemPrompt = customPromptBox.Text
-    end)
-    
-    -- Init state
-    if (ClientSettings.PersonalityId == "Custom") then
-        if personalityDropdown.Set then
-            personalityDropdown.Set("Custom")
-        end
-    end
-end
-
-
-
 local advancedFrame = Instance.new("CanvasGroup")
 advancedFrame.BackgroundTransparency = 1
 advancedFrame.Size = UDim2.new(1, 0, 1, 0)
