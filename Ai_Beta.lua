@@ -2311,7 +2311,7 @@ local function createInterface()
     sidebarDivider.Size = UDim2.new(0, 1, 1, 0)
     sidebarDivider.Parent = sidebar
 
-local sidebarTitle = makeTextLabel(sidebar, "AI_Beta", 16, "bold")
+local sidebarTitle = makeTextLabel(sidebar, "AI_Beta-VietNamese-1.0.0", 16, "bold")
 sidebarTitle.Position = UDim2.new(0, 20, 0, 18)
 sidebarTitle.Size = UDim2.new(1, -20, 0, 18)
 
@@ -3391,41 +3391,50 @@ end
 -- BEHAVIOR TAB CONTENT (Populate)
 
 -- BEHAVIOR TAB CONTENT (Populate)
--- ===================== PHẦN TÍNH CÁCH (Behavior) =====================
 local personalitySection = makeSectionCard(behaviorScroll, "Tính cách", "")
 
 do
+    -- Remove "Custom" from selectable dropdown list
     local personalityOrder = {}
     for k, _ in pairs(Personalities) do
-        table.insert(personalityOrder, k)
+        if k ~= "Custom" then
+             table.insert(personalityOrder, k)
+        end
     end
     table.sort(personalityOrder)
-    table.insert(personalityOrder, "Custom")
 
+    -- Personality Dropdown
     local dropRow, ctrl = makeRightControlRow(behaviorScroll, "Tính cách", "Cài đặt giọng điệu trả lời.", 220)
+    
     local personalityDropdown = makeDropdown(ctrl, personalityOrder, ClientSettings.PersonalityId or "Friendly", function(val)
         ClientSettings.PersonalityId = val
     end)
-
+    
+    -- Custom Personality Prompt (Always Visible)
     local customPromptContainer, customPromptBox = makeScrollingTextBox(behaviorScroll, "Nhập prompt tính cách tùy chỉnh của bạn...", ClientSettings.CustomSystemPrompt, 120)
 
+    -- Auto-Switch to Custom on Type
     customPromptBox:GetPropertyChangedSignal("Text"):Connect(function()
         if ClientSettings.PersonalityId ~= "Custom" then
             ClientSettings.PersonalityId = "Custom"
+            -- Update dropdown text to show "Custom" even if not in list
             if personalityDropdown.Set then
                 personalityDropdown.Set("Custom")
             end
         end
         ClientSettings.CustomSystemPrompt = customPromptBox.Text
     end)
-
-    if ClientSettings.PersonalityId == "Custom" then
+    
+    -- Init state
+    if (ClientSettings.PersonalityId == "Custom") then
         if personalityDropdown.Set then
             personalityDropdown.Set("Custom")
         end
     end
 end
--- ===================== KẾT THÚC PHẦN TÍNH CÁCH =====================
+
+
+
 local advancedFrame = Instance.new("CanvasGroup")
 advancedFrame.BackgroundTransparency = 1
 advancedFrame.Size = UDim2.new(1, 0, 1, 0)
